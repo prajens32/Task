@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next Greater Permutation</title>
+</head>
+<body>
+  <h1>Next Greater Permutation Finder</h1>
+  <label for="numberInput">Enter a number:</label>
+  <input type="text" id="numberInput" />
+  <button onclick="findNextPermutation()">Find Next Permutation</button>
+  <p id="result"></p>
+
+  <script>
+    function findNextPermutation() {
+      const input = document.getElementById("numberInput").value;
+      const resultElement = document.getElementById("result");
+
+      // Convert input to an array of digits
+      const digits = input.split('').map(Number);
+      const n = digits.length;
+
+      // Step 1: Find the first index `i` from the right such that digits[i] < digits[i + 1]
+      let i = n - 2;
+      while (i >= 0 && digits[i] >= digits[i + 1]) {
+        i--;
+      }
+
+      // If no such index exists, return -1 (no greater permutation)
+      if (i < 0) {
+        resultElement.textContent = '-1';
+        return;
+      }
+
+      // Step 2: Find the smallest number larger than digits[i] to the right of i
+      let j = n - 1;
+      while (digits[j] <= digits[i]) {
+        j--;
+      }
+
+      // Step 3: Swap digits[i] and digits[j]
+      [digits[i], digits[j]] = [digits[j], digits[i]];
+
+      // Step 4: Reverse the part of the array to the right of i
+      const nextPermutation = digits.slice(0, i + 1).concat(digits.slice(i + 1).reverse());
+
+      // Display the result
+      resultElement.textContent = `Next greater permutation: ${nextPermutation.join('')}`;
+    }
+  </script>
+</body>
+</html>
